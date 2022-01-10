@@ -37,5 +37,7 @@ module.exports = (sequelize, DataTypes) => {
 		admin: {
       type: DataTypes.BOOLEAN
 		}
-	});
+	}, {
+    freezeTableName: true
+  });
 };
