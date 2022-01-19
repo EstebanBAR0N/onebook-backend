@@ -17,8 +17,8 @@ const modelDefiners = [
 	require('./models/user.model'),
 	require('./models/file.model'),
 	require('./models/token.model'),
-    require('./models/notification.model'),
-    require('./models/log.model'),
+  require('./models/notification.model'),
+  require('./models/log.model'),
 ];
 
 // define sequelize models

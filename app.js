@@ -2,6 +2,15 @@ const express = require('express');
 const cors = require('cors');
 const sequelize = require('./sequelize');
 
+//import routes
+const loginRoutes = require('./routes/login');
+const registerRoutes = require('./routes/register');
+const userRoutes = require('./routes/user');
+const tokenRoutes = require('./routes/token');
+const fileRoutes = require('./routes/file');
+const notificationRoutes = require('./routes/notification');
+const logRoutes = require('./routes/log');
+
 const app = express();
 
 // body-parser
@@ -25,6 +34,7 @@ async function assertDatabaseConnectionOk() {
 	}
 }
 
+//init authentication to database
 async function init() {
 	await assertDatabaseConnectionOk();
 }
@@ -32,8 +42,20 @@ async function init() {
 init();
 
 
-// Différentes routes
+//------------- Différentes routes -------------//
 
+// authentication
+app.use('/api/login', loginRoutes);
+app.use('/api/register', registerRoutes);
+
+// main
+app.use('/api/user', userRoutes);
+app.use('/api/file', fileRoutes);
+app.use('/api/token', tokenRoutes);
+
+// secondary
+app.use('/api/notification', notificationRoutes);
+app.use('/api/log', logRoutes);
 
 
 module.exports = app;
