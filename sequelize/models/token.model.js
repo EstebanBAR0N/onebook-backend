@@ -6,12 +6,16 @@ module.exports = (sequelize, DataTypes) => {
 			primaryKey: true,
 			type: DataTypes.INTEGER
 		},
+		token: {
+			allowNull: false,
+			type: DataTypes.STRING
+		},
 		creationDate: {
 			allowNull: false,
 			type: DataTypes.DATE,
-            defaultValue: DataTypes.NOW
+			defaultValue: DataTypes.NOW
 		},
-        expirationDate: {
+		expirationDate: {
 			allowNull: false,
 			type: DataTypes.DATE
 		}

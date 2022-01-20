@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
 				is: /^\w{3,}$/
 			}
 		},
-		emailAddress: {
+		email: {
       allowNull: false,
 			type: DataTypes.STRING,
 			unique: true,
@@ -29,13 +29,16 @@ module.exports = (sequelize, DataTypes) => {
 			type: DataTypes.STRING
 		},
 		profilImage: {
-			type: DataTypes.STRING
+			type: DataTypes.STRING,
+			defaultValue: null
 		},
 		birthDate: {
-			type: DataTypes.DATE
+			type: DataTypes.DATE,
+			defaultValue: null
 		},
 		admin: {
-      type: DataTypes.BOOLEAN
+      type: DataTypes.BOOLEAN,
+			defaultValue: false
 		}
 	}, {
     freezeTableName: true

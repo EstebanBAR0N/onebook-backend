@@ -9,7 +9,9 @@ const sequelize = new Sequelize(process.env.DB_URL, {
         require: true,
         rejectUnauthorized: false,
       },
-    }
+      useUTC: false,
+    },
+    timezone: '+05:30',
 });
 
 // exports all models files
