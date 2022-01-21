@@ -1,13 +1,23 @@
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-
 const { Op } = require("sequelize");
 const { models } = require('../sequelize');
+const helpers = require('../utils/helpers');
 
 
 // create a new user in database
 exports.signup = async (req, res, next) => {
   try {
+    // vérifie les informations utilisateur
+    if (
+      !helpers.isValidString(req.body.username) || 
+      !helpers.isValidEmail(req.body.email) || 
+      req.body.admin === true
+    ) {
+      res.status(403).json({
+        error: 'Invalid data'
+      });
+      return;
+    }
 
     // hash password
     const hashPassword = await bcrypt.hash(req.body.password, 10);

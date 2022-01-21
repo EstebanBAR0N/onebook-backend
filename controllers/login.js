@@ -1,12 +1,20 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-
 const { models } = require('../sequelize');
+const helpers = require('../utils/helpers');
 
 
 // return the token or an error (wrong authentication) to the user
 exports.login = async (req, res, next) => {
   try {
+
+    // vérifie les informations utilisateur
+    if (!helpers.isValidEmail(req.body.email)) {
+      res.status(403).json({
+        error: 'Invalid data !'
+      });
+      return;
+    }
 
     // find user
     const user = await models.user.findOne({ where: { email: req.body.email } });
