@@ -6,7 +6,6 @@ const helpers = require('../utils/helpers');
 // return all users
 exports.getUsers = async (req, res, next) => {
   try {
-
     // récupère les paramètre de la requête
     const params = helpers.getUserParams(req);
 

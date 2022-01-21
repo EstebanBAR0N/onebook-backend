@@ -7,7 +7,6 @@ const helpers = require('../utils/helpers');
 // return all files
 exports.getFiles = async (req, res, next) => {
   try {
-
     // récupère les paramètre de la requête
     const params = helpers.getFileParams(req);
 
@@ -82,7 +81,6 @@ exports.getFiles = async (req, res, next) => {
 // create a new file
 exports.createFile = async (req, res, next) => {
   try {
-
     // vérifie les informations utilisateur
     // check si userId existe
     if (!isNaN(req.body.userId)) {
