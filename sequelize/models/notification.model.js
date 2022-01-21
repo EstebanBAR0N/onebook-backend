@@ -11,9 +11,9 @@ module.exports = (sequelize, DataTypes) => {
 			type: DataTypes.STRING,
 			unique: true
 		},
-        message: {
+		message: {
 			type: DataTypes.STRING
-        }
+		}
 	}, {
 		freezeTableName: true
 	});

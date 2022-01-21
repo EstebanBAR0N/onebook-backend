@@ -10,16 +10,17 @@ module.exports = (sequelize, DataTypes) => {
 			allowNull: false,
 			type: DataTypes.STRING,
 		},
-        format: {
+		format: {
+			allowNull: false,
 			type: DataTypes.STRING,
-            validate: {
-                isIn: [['IMAGE', 'VIDEO', 'AUDIO']],
-            }
-        },
-        onHold: {
-            allowNull: false,
+			validate: {
+				isIn: [['image', 'video', 'audio']],
+			}
+		},
+		onHold: {
+			allowNull: false,
 			type: DataTypes.BOOLEAN,
-        }
+		}
 	}, {
 		freezeTableName: true
 	});

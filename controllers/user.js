@@ -8,7 +8,7 @@ exports.getUsers = async (req, res, next) => {
   try {
 
     // récupère les paramètre de la requête
-    const params = helpers.getParams(req);
+    const params = helpers.getUserParams(req);
 
     // vérifie les paramètres passé par l'utilisateur
     if (helpers.corruptedArg(params)) {
@@ -20,7 +20,7 @@ exports.getUsers = async (req, res, next) => {
     }
 
     // génère la query en fonction des paramètres
-    let query = {}
+    let query = {};
     
     if (params['username']) {
       const usernameQuery = {

@@ -6,10 +6,10 @@ module.exports = (sequelize, DataTypes) => {
 			primaryKey: true,
 			type: DataTypes.INTEGER
 		},
-        message: {
-            allowNull: false,
+		message: {
+			allowNull: false,
 			type: DataTypes.STRING
-        }
+		}
 	}, {
 		freezeTableName: true
 	});
