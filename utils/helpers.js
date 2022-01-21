@@ -52,7 +52,7 @@ exports.getUserParams = (req) => {
 
 // Une fonction qui permet d'extraire les paramètres de l'url (pour un fichier)
 // ex : /api/file?limit=20&offset=10&userId=1 => { limit:20, offset:10, userId:1 } 
-exports.getUserParams = (req) => {
+exports.getFileParams = (req) => {
 
 	// récupère tous les paramètres après ?
 	const params = req.query;

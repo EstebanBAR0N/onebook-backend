@@ -6,75 +6,78 @@ const helpers = require('../utils/helpers');
 
 // return all files
 exports.getFiles = async (req, res, next) => {
-  // try {
+  try {
 
-  //   // récupère les paramètre de la requête
-  //   const params = helpers.getFileParams(req);
+    // récupère les paramètre de la requête
+    const params = helpers.getFileParams(req);
 
-  //   // vérifie les paramètres passé par l'utilisateur
-  //   if (helpers.corruptedArg(params)) {
-  //     res.status(403).json({
-  //       error: 'Invalid data passed in the url'
-  //     });
+    console.log(params)
 
-  //     return;
-  //   }
+    // // vérifie les paramètres passé par l'utilisateur
+    if (helpers.corruptedArg(params)) {
+      res.status(403).json({
+        error: 'Invalid data passed in the url'
+      });
 
-  //   // génère la query en fonction des paramètres
-  //   let query = {};
-  //   let whereQuery = null;
+      return;
+    }
+
+    // génère la query en fonction des paramètres
+    let query = {};
+    let whereQuery = null;
     
-  //   // userId et format
-  //   if (params['userId'] && params['format']) {
-  //     whereQuery = { 
-  //       where: {
-  //         [Op.and]: {
-  //           userId : { [Op.eq]: params['userId'] },
-  //           format : { [Op.eq]: params['format'] }
-  //         }
-  //       }
-  //     }
-  //   }
-  //   else if (params['userId']) {
-  //     whereQuery = { 
-  //       where: {
-  //         userId : { [Op.eq]: params['userId'] }         
-  //       }
-  //     }
-  //   }
-  //   else if (params['format']) {
-  //     whereQuery = { 
-  //       where: {
-  //         format : { [Op.eq]: params['format'] }         
-  //       }
-  //     }
-  //   }
+    // userId et format
+    if (params['userId'] && params['format']) {
+      whereQuery = { 
+        where: {
+          [Op.and]: {
+            userId : { [Op.eq]: params['userId'] },
+            format : { [Op.eq]: params['format'] }
+          }
+        }
+      }
+    }
+    else if (params['userId']) {
+      whereQuery = { 
+        where: {
+          userId : { [Op.eq]: params['userId'] }         
+        }
+      }
+    }
+    else if (params['format']) {
+      whereQuery = { 
+        where: {
+          format : { [Op.eq]: params['format'] }         
+        }
+      }
+    }
 
-  //   if (whereQuery) {
-  //     query = {...query, ...whereQuery};
-  //   } 
+    if (whereQuery) {
+      query = {...query, ...whereQuery};
+    } 
     
-  //   // offset et limit
-  //   if (params['offset']) {
-  //     query = {...query, ...{offset: params['offset']}};
-  //   }
-  //   if (params['limit']) {
-  //     query = {...query, ...{limit: params['limit']}};
-  //   }
+    // offset et limit
+    if (params['offset']) {
+      query = {...query, ...{offset: params['offset']}};
+    }
+    if (params['limit']) {
+      query = {...query, ...{limit: params['limit']}};
+    }
 
-  //   console.log(query);
+    console.log(query);
 
-  //   // récupère tous les users
-  //   const files = await models.file.findAll(query);
+    // récupère tous les users
+    const files = await models.file.findAll(query);
 
-  //   res.status(200).json(files);
-  // }
-  // catch (err) {
-  //   res.status(500).json({
-  //     error: 'Server Error'
-  //   });
-  // }
+    res.status(200).json(files);
+  }
+  catch (err) {
+    res.status(500).json({
+      error: 'Server Error'
+    });
+  }
 };
+
 
 // create a new file
 exports.createFile = async (req, res, next) => {
@@ -131,6 +134,7 @@ exports.createFile = async (req, res, next) => {
     })
   }
 };
+
 
 // return the file with the id : req.params.id
 exports.getFileById = (req, res, next) => {

@@ -51,6 +51,7 @@ exports.getUsers = async (req, res, next) => {
   }
 };
 
+
 // return the user with the id : req.params.id
 exports.getUserById = async (req, res, next) => {
   try {
