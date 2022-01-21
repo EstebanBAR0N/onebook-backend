@@ -137,6 +137,23 @@ exports.createFile = async (req, res, next) => {
 
 
 // return the file with the id : req.params.id
-exports.getFileById = (req, res, next) => {
-  
+exports.getFileById =  async (req, res, next) => {
+  try {
+    const id = helpers.getIdParam(req);
+
+    // récupère le file avec l'id : "id"
+    const file = await models.file.findByPk(id);
+    if (file) {
+      res.status(200).json(file);
+    } else {
+      res.status(404).json({
+        error: 'File not found'
+      });
+    }
+  }
+  catch (err) {
+    res.status(500).json({
+      error: 'Server Error'
+    });
+  }
 };
