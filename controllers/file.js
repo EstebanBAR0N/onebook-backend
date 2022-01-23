@@ -207,45 +207,45 @@ exports.updateFile = async (req, res, next) => {
 }
 
 
-// // delete a user
-// exports.deleteUser = async (req, res, next) => {
-//   try {
-//     const id = helpers.getIdParam(req);
+// delete a file
+exports.deleteFile = async (req, res, next) => {
+  try {
+    const id = helpers.getIdParam(req);
 
-//     // récupère le user avec l'id : "id"
-//     const user = await models.user.findByPk(id);
+    // récupère le file avec l'id : "id"
+    const file = await models.file.findByPk(id);
 
-//     // si le user n'existe pas
-//     if (!user) {
-//       return res.status(404).json({
-//         error: 'User not found!'
-//       });
-//     }
+    // si le file n'existe pas
+    if (!file) {
+      return res.status(404).json({
+        error: 'File not found!'
+      });
+    }
 
-//     // si ce n'est pas son compte ou que le user n'est pas admin, pas le droit de supprimer
-//     const userWhoDelete = await models.user.findByPk(req.auth.userId);
-//     if (!userWhoDelete) {
-//       return res.status(404).json({
-//         error: 'We can\'t find your id!'
-//       });
-//     }
+    // si ce n'est pas son compte ou que le user n'est pas admin, pas le droit de supprimer
+    const userWhoDelete = await models.user.findByPk(req.auth.userId);
+    if (!userWhoDelete) {
+      return res.status(404).json({
+        error: 'We can\'t find your id!'
+      });
+    }
 
-//     if (user.id !== req.auth.userId && !userWhoDelete.admin) {
-//       return res.status(403).json({
-//         error: 'Unauthorized request!'
-//       });
-//     }
+    if (file.userId !== req.auth.userId && !userWhoDelete.admin) {
+      return res.status(403).json({
+        error: 'Unauthorized request!'
+      });
+    }
     
-//     // delete user
-//     await user.destroy();
+    // delete user
+    await file.destroy();
     
-//     res.status(200).json({
-//       message: 'User deleted successfully!'
-//     });
-//   }
-//   catch (err) {
-//     res.status(500).json({
-//       error: 'Server Error'
-//     });
-//   }
-// }
+    res.status(200).json({
+      message: 'File deleted successfully!'
+    });
+  }
+  catch (err) {
+    res.status(500).json({
+      error: 'Server Error'
+    });
+  }
+}

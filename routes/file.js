@@ -9,6 +9,6 @@ router.post('/', fileCtrl.createFile);
 
 router.get('/:id', fileCtrl.getFileById);
 router.put('/:id', auth, fileCtrl.updateFile);
-// router.delete('/:id', auth, fileCtrl.deleteFile);
+router.delete('/:id', auth, fileCtrl.deleteFile);
 
 module.exports = router;
