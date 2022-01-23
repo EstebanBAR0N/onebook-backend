@@ -10,8 +10,6 @@ exports.getFiles = async (req, res, next) => {
     // récupère les paramètre de la requête
     const params = helpers.getFileParams(req);
 
-    console.log(params)
-
     // // vérifie les paramètres passé par l'utilisateur
     if (helpers.corruptedArg(params)) {
       res.status(403).json({
@@ -62,8 +60,6 @@ exports.getFiles = async (req, res, next) => {
     if (params['limit']) {
       query = {...query, ...{limit: params['limit']}};
     }
-
-    console.log(query);
 
     // récupère tous les users
     const files = await models.file.findAll(query);

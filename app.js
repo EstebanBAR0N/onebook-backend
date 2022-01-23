@@ -51,11 +51,10 @@ app.use('/api/register', registerRoutes);
 // main
 app.use('/api/user', userRoutes);
 app.use('/api/file', fileRoutes);
-app.use('/api/token', tokenRoutes);
 
 // secondary
-app.use('/api/notification', notificationRoutes);
-app.use('/api/log', logRoutes);
+// app.use('/api/notification', notificationRoutes);
+// app.use('/api/log', logRoutes);
 
 
 module.exports = app;

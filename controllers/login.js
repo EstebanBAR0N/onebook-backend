@@ -36,13 +36,13 @@ exports.login = async (req, res, next) => {
     const token = jwt.sign(
       { userId: user.id }, 
       process.env.JWT_SECRET_TOKEN,
-      { expiresIn: '1h' }
+      { expiresIn: '3j' }
     );
     
     // store new token to database
     const creationDate = new Date(Date.now());
     let expirationDate = new Date(
-      new Date(creationDate).setHours(creationDate.getHours() + 1)
+      new Date(creationDate).setDate(creationDate.getDate() + 3)
     );
 
     const newToken = new models.token({
