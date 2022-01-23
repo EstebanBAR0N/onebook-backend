@@ -6,7 +6,6 @@ const sequelize = require('./sequelize');
 const loginRoutes = require('./routes/login');
 const registerRoutes = require('./routes/register');
 const userRoutes = require('./routes/user');
-const tokenRoutes = require('./routes/token');
 const fileRoutes = require('./routes/file');
 const notificationRoutes = require('./routes/notification');
 const logRoutes = require('./routes/log');

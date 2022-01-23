@@ -13,8 +13,8 @@ exports.signup = async (req, res, next) => {
       !helpers.isValidEmail(req.body.email) || 
       req.body.admin === true
     ) {
-      res.status(403).json({
-        error: 'Invalid data'
+      res.status(406).json({
+        error: 'Invalid data, request not acceptable!'
       });
       return;
     }
@@ -40,8 +40,8 @@ exports.signup = async (req, res, next) => {
     const userAlreadyExist = await models.user.findOne({ 
       where: {
         [Op.or]: [
-          { username: { [Op.eq]: user.username } },
-          { email: { [Op.eq]: user.email } }
+          { username: user.username },
+          { email: user.email }
         ]
       } 
     });

@@ -28,8 +28,8 @@ exports.getFiles = async (req, res, next) => {
       whereQuery = { 
         where: {
           [Op.and]: {
-            userId : { [Op.eq]: params['userId'] },
-            format : { [Op.eq]: params['format'] }
+            userId : params['userId'],
+            format : params['format'],
           }
         }
       }
@@ -37,14 +37,14 @@ exports.getFiles = async (req, res, next) => {
     else if (params['userId']) {
       whereQuery = { 
         where: {
-          userId : { [Op.eq]: params['userId'] }         
+          userId : params['userId'],         
         }
       }
     }
     else if (params['format']) {
       whereQuery = { 
         where: {
-          format : { [Op.eq]: params['format'] }         
+          format : params['format'],         
         }
       }
     }
@@ -82,9 +82,7 @@ exports.createFile = async (req, res, next) => {
     if (!isNaN(req.body.userId)) {
       const userExist = await models.user.findOne({ 
         where: {
-          id : {
-            [Op.eq]: req.body.userId
-          }
+          id : req.body.userId
         } 
       });
   
@@ -151,3 +149,103 @@ exports.getFileById =  async (req, res, next) => {
     });
   }
 };
+
+
+// modify a file
+exports.updateFile = async (req, res, next) => {
+  try {
+    const id = helpers.getIdParam(req);
+
+    // récupère le file avec l'id : "id"
+    const fileToModify = await models.file.findByPk(id);
+
+    // si le file n'existe pas
+    if (!fileToModify) {
+      return res.status(404).json({
+        error: 'File not found!'
+      });
+    }
+
+    // si ce n'est pas son compte ou que le user n'est pas admin, pas le droit de modifier
+    const userWhoUpdate = await models.user.findByPk(req.auth.userId);
+    if (!userWhoUpdate) {
+      return res.status(404).json({
+        error: 'We can\'t find your user id!'
+      });
+    }
+
+    if (fileToModify.userId !== req.auth.userId && !userWhoUpdate.admin) {
+      return res.status(403).json({
+        error: 'Unauthorized request!'
+      });
+    }
+    
+    // check user info
+    if (
+      (!helpers.isValidUrl(req.body.url))
+    ) {
+      res.status(406).json({
+        error: 'Invalid data, request not acceptable!'
+      });
+      return;
+    }
+    
+    // modification du fichier
+    const dataToModify = { url : req.body.url };
+    
+    await models.file.update(dataToModify, { where : { id : id } });
+    
+    res.status(200).json({
+      message: 'File updated successfully!'
+    });
+  }
+  catch (err) {
+    res.status(500).json({
+      error: 'Server Error'
+    });
+  }
+}
+
+
+// // delete a user
+// exports.deleteUser = async (req, res, next) => {
+//   try {
+//     const id = helpers.getIdParam(req);
+
+//     // récupère le user avec l'id : "id"
+//     const user = await models.user.findByPk(id);
+
+//     // si le user n'existe pas
+//     if (!user) {
+//       return res.status(404).json({
+//         error: 'User not found!'
+//       });
+//     }
+
+//     // si ce n'est pas son compte ou que le user n'est pas admin, pas le droit de supprimer
+//     const userWhoDelete = await models.user.findByPk(req.auth.userId);
+//     if (!userWhoDelete) {
+//       return res.status(404).json({
+//         error: 'We can\'t find your id!'
+//       });
+//     }
+
+//     if (user.id !== req.auth.userId && !userWhoDelete.admin) {
+//       return res.status(403).json({
+//         error: 'Unauthorized request!'
+//       });
+//     }
+    
+//     // delete user
+//     await user.destroy();
+    
+//     res.status(200).json({
+//       message: 'User deleted successfully!'
+//     });
+//   }
+//   catch (err) {
+//     res.status(500).json({
+//       error: 'Server Error'
+//     });
+//   }
+// }
