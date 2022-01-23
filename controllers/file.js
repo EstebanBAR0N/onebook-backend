@@ -182,7 +182,7 @@ exports.updateFile = async (req, res, next) => {
     
     // check user info
     if (
-      (!helpers.isValidUrl(req.body.url))
+      !helpers.isValidUrl(req.body.url)
     ) {
       res.status(406).json({
         error: 'Invalid data, request not acceptable!'

@@ -52,8 +52,9 @@ app.use('/api/user', userRoutes);
 app.use('/api/file', fileRoutes);
 
 // secondary
-// app.use('/api/notification', notificationRoutes);
+app.use('/api/notification', notificationRoutes);
 // app.use('/api/log', logRoutes);
+// app.use('/api/userNotification', userNotificationRoutes);
 
 
 module.exports = app;
