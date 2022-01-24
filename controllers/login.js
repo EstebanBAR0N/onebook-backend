@@ -41,9 +41,8 @@ exports.login = async (req, res, next) => {
     
     // store new token to database
     const creationDate = new Date(Date.now());
-    let expirationDate = new Date(
-      new Date(creationDate).setDate(creationDate.getDate() + 3)
-    );
+    let expirationDate = new Date(creationDate);
+    expirationDate.setDate(expirationDate.getDate() + 3)
 
     const newToken = new models.token({
       token: token,
@@ -59,7 +58,8 @@ exports.login = async (req, res, next) => {
     // return userId and token
     res.status(200).json({
         userId: user.id,
-        token: token
+        token: token,
+        expirationDate: expirationDate.getTime()
     });
   } 
   catch (err) {
