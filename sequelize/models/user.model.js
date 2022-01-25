@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
 			type: DataTypes.STRING
 		},
 		profilImage: {
-			type: DataTypes.STRING(1000),
+			type: DataTypes.STRING(2048),
 			defaultValue: null
 		},
 		birthDate: {
