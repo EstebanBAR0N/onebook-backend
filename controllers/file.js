@@ -21,7 +21,7 @@ exports.getFiles = async (req, res, next) => {
 
     // génère la query en fonction des paramètres
     let query = {};
-    let whereQuery = null;
+    let whereQuery = {};
     
     // userId et format
     if (params['userId'] && params['format']) {
