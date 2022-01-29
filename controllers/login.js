@@ -36,7 +36,7 @@ exports.login = async (req, res, next) => {
     const token = jwt.sign(
       { userId: user.id }, 
       process.env.JWT_SECRET_TOKEN,
-      { expiresIn: '3d' }
+      { expiresIn: '1d' }
     );
     
     // store new token to database
