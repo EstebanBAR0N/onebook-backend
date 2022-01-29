@@ -2,6 +2,30 @@ const { param } = require("express/lib/request");
 const { Op } = require("sequelize");
 const { models } = require('../sequelize');
 const helpers = require('../utils/helpers');
+const cloudinary = require('cloudinary').v2;
+const uniqid = require('uniqid');
+const fs = require('fs');
+const multer = require('multer');
+
+
+// init multipart upload
+const storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null, `${__dirname}/../uploads_tmp/`)
+  },
+  filename: function(req, file, cb) {
+    cb(null, (`file_${uniqid()}`))
+  }
+})
+
+
+// Config cloudinary
+cloudinary.config({ 
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME, 
+  api_key: process.env.CLOUDINARY_API_KEY, 
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+  secure: true
+});
 
 
 // return all files
@@ -77,7 +101,6 @@ exports.getFiles = async (req, res, next) => {
 // create a new file
 exports.createFile = async (req, res, next) => {
   try {
-    // vérifie les informations utilisateur
     // check si userId existe
     if (!isNaN(req.body.userId)) {
       const userExist = await models.user.findOne({ 
@@ -93,31 +116,64 @@ exports.createFile = async (req, res, next) => {
       }
     }
 
-    // check si les données sont valides
-    if (
-      !helpers.isValidFormat(req.body.format) ||
-      !helpers.isValidUrl(req.body.url) ||
-      isNaN(req.body.userId)
-    ) {
-      res.status(403).json({
-        error: 'Invalid data'
+    let fileUrl = '';
+
+    // upload file on cloudinary and get the url
+    const upload = multer({ storage }).single('file');
+
+    // multipart upload
+    upload(req, res, async (err) => {
+      if (err || !req.file) {
+        return res.status(400).json({error: "Invalid request!"});
+      }
+
+      const extention = `${req.file.originalname}`.split('.').pop()
+
+      // file type filter
+      if(!['jpg', 'jpeg', 'heif', 'png', 'gif', 'webp', 'svg', 'mp3', 'mp4'].includes(extention)) {
+        return res.status(400).json({error: "Invalid request !"});
+      }
+
+      try {
+          const cloudinaryResponse = await cloudinary.uploader.upload(
+            req.file.path, 
+            {folder: 'onebook'}
+          );
+          fileUrl = cloudinaryResponse.secure_url;
+      } catch(err) {
+          console.error(err)
+          return res.status(500).json({error: "Server Error!"});
+      }
+
+      // delete image
+      fs.unlinkSync(req.file.path);
+
+      // check si les données sont valides
+      if (
+        !helpers.isValidFormat(req.body.format) ||
+        isNaN(req.body.userId)
+      ) {
+        res.status(403).json({
+          error: 'Invalid data'
+        });
+        return;
+      }
+
+      // create new file
+      const file = new models.file({
+          url: fileUrl,
+          format: req.body.format,
+          onHold: false,
+          userId: req.body.userId
       });
-      return;
-    }
 
-    // create new file
-    const file = new models.file({
-        url : req.body.url,
-        format: req.body.format,
-        onHold: false,
-        userId: req.body.userId
-    });
+      // save new file to database
+      await file.save();
 
-    // save new file to database
-    await file.save();
-
-    res.status(201).json({
-        message: 'File added successfully!'
+      // send response to client
+      res.status(201).json({
+          message: 'Files successfully uploaded!'
+      });
     });
   }
   catch (err) {
