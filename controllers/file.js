@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
     cb(null, `${__dirname}/../uploads_tmp/`)
   },
   filename: function(req, file, cb) {
-    cb(null, (`${uniqid()}__${file.originalname}`))//(`file_${uniqid()}`))
+    cb(null, (`${uniqid()}__${file.originalname}`))
   }
 })
 
