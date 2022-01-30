@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
     cb(null, `${__dirname}/../uploads_tmp/`)
   },
   filename: function(req, file, cb) {
-    cb(null, (`file_${uniqid()}`))
+    cb(null, (`${uniqid()}__${file.originalname}`))//(`file_${uniqid()}`))
   }
 })
 
@@ -137,7 +137,12 @@ exports.createFile = async (req, res, next) => {
       try {
           const cloudinaryResponse = await cloudinary.uploader.upload(
             req.file.path, 
-            {folder: 'onebook'}
+            {
+              folder: 'onebook', 
+              resource_type: 'auto',
+              use_filename: true,
+              unique_filename: false,
+            },
           );
           fileUrl = cloudinaryResponse.secure_url;
       } catch(err) {
