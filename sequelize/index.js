@@ -11,6 +11,12 @@ const sequelize = new Sequelize(process.env.DB_URL, {
       },
       useUTC: false,
     },
+    pool: {
+      max: 5,
+      min: 1,
+      acquire: 30000,
+      idle: 10000
+    },
     timezone: '+05:30',
 });
 
