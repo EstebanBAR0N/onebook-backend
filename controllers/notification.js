@@ -113,6 +113,7 @@ exports.getNotificationById = async (req, res, next) => {
     res.status(500).json({
       error: 'Server Error'
     });
+    console.error(err);
   }
 };
 
@@ -173,6 +174,7 @@ exports.updateNotification = async (req, res, next) => {
     res.status(500).json({
       error: 'Server Error'
     });
+    console.error(err);
   }
 }
 
@@ -217,5 +219,6 @@ exports.deleteNotification = async (req, res, next) => {
     res.status(500).json({
       error: 'Server Error'
     });
+    console.error(err);
   }
 }

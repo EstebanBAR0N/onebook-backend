@@ -62,6 +62,7 @@ exports.signup = async (req, res, next) => {
   catch (err) {
     res.status(500).json({
         error: 'Server Error'
-    })
+    });
+    console.error(err);
   }
 };

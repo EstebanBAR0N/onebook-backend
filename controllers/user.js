@@ -48,6 +48,7 @@ exports.getUsers = async (req, res, next) => {
     res.status(500).json({
       error: 'Server Error'
     });
+    console.error(err);
   }
 };
 
@@ -71,6 +72,7 @@ exports.getUserById = async (req, res, next) => {
     res.status(500).json({
       error: 'Server Error'
     });
+    console.error(err);
   }
 };
 
@@ -182,6 +184,7 @@ exports.updateUser = async (req, res, next) => {
     res.status(500).json({
       error: 'Server Error'
     });
+    console.error(err);
   }
 }
 
@@ -226,5 +229,6 @@ exports.deleteUser = async (req, res, next) => {
     res.status(500).json({
       error: 'Server Error'
     });
+    console.error(err);
   }
 }

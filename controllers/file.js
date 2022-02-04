@@ -94,6 +94,7 @@ exports.getFiles = async (req, res, next) => {
     res.status(500).json({
       error: 'Server Error'
     });
+    console.error(err);
   }
 };
 
@@ -146,8 +147,8 @@ exports.createFile = async (req, res, next) => {
           );
           fileUrl = cloudinaryResponse.secure_url;
       } catch(err) {
-          console.error(err)
-          return res.status(500).json({error: "Server Error!"});
+        console.error(err);
+        return res.status(500).json({error: "Server Error!"});
       }
 
       // delete image
@@ -184,7 +185,8 @@ exports.createFile = async (req, res, next) => {
   catch (err) {
     res.status(500).json({
         error: 'Server Error'
-    })
+    });
+    console.error(err);
   }
 };
 
@@ -208,6 +210,7 @@ exports.getFileById =  async (req, res, next) => {
     res.status(500).json({
       error: 'Server Error'
     });
+    console.error(err);
   }
 };
 
@@ -264,6 +267,7 @@ exports.updateFile = async (req, res, next) => {
     res.status(500).json({
       error: 'Server Error'
     });
+    console.error(err);
   }
 }
 
@@ -308,5 +312,6 @@ exports.deleteFile = async (req, res, next) => {
     res.status(500).json({
       error: 'Server Error'
     });
+    console.error(err);
   }
 }

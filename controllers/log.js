@@ -28,6 +28,7 @@ exports.getLogs = async (req, res, next) => {
     res.status(500).json({
       error: 'Server Error'
     });
+    console.error(err);
   }
 };
 
@@ -74,7 +75,8 @@ exports.createLog = async (req, res, next) => {
   catch (err) {
     res.status(500).json({
         error: 'Server Error'
-    })
+    });
+    console.error(err);
   }
 };
 
@@ -111,5 +113,6 @@ exports.getLogById = async (req, res, next) => {
     res.status(500).json({
       error: 'Server Error'
     });
+    console.error(err);
   }
 };
