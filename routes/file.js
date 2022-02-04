@@ -6,7 +6,7 @@ const fileCtrl = require('../controllers/file');
 const router = express.Router();
 
 router.get('/', fileCtrl.getFiles);
-router.post('/', fileCtrl.createFile);
+router.post('/', auth, fileCtrl.createFile);
 
 router.get('/:id', fileCtrl.getFileById);
 router.put('/:id', auth, fileCtrl.updateFile);
