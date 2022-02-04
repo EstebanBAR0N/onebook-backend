@@ -20,7 +20,7 @@ exports.getUsers = async (req, res, next) => {
     }
 
     // génère la query en fonction des paramètres
-    let query = {};
+    let query = { order: [['updatedAt',  'DESC']] };
     
     if (params['username']) {
       const usernameQuery = {

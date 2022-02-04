@@ -44,7 +44,7 @@ exports.getFiles = async (req, res, next) => {
     }
 
     // génère la query en fonction des paramètres
-    let query = {};
+    let query = { order: [['updatedAt',  'DESC']] };
     let whereQuery = {};
     
     // userId et format
