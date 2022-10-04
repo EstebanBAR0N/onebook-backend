@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: onebook-backend:dev
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 4000
+          env:
+            - name: PORT
+              value: '4000'
+            - name: DB_URL
+              value: 'postgres://postgres:<database-password>@<database-internal-ip>:5432/postgres'
+            - name: JWT_SECRET_TOKEN
+              value: '<jwt-secret-token>'
+            - name: CLOUDINARY_CLOUD_NAME
+              value: '<cloudinary-cloud-name>'
+            - name: CLOUDINARY_API_KEY
+              value: '<cloudinary-api-key>'
+            - name: CLOUDINARY_API_SECRET
+              value: '<cloudinary-api-secret>'
